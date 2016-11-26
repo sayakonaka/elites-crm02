@@ -1,6 +1,12 @@
 class CustomersController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+ 
   def index
-    @customers = Customer.page(params[:page])
+# @customers = Customer.page(params[:page])
+#----------------上記の1行を削除し、下記に変更----------------
+    @q = Customer.search(params[:q])
+    @customers = @q.result(distinct: true).page(params[:page])
+#---------------------------------------------------------
   end
 
   def new
