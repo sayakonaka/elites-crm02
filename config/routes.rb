@@ -3,6 +3,10 @@ Rails.application.routes.draw do
   resources :customers
   root 'customers#index'
   
+#------------------------下記を追加---------------------
+  resources :comments, only: [:create, :destroy]
+#-------------------------------------------------------
+  
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

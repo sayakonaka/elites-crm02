@@ -37,6 +37,10 @@ class CustomersController < ApplicationController
 
   def show
     @customer = Customer.find(params[:id])
+    @comment = Comment.new # これをform_forで使う
+  #----------------------------下記を追加--------------------------
+    @comments = Comment.where(customer_id: params[:id].to_i)
+#----------------------------------------------------------------
   end
 
   def destroy
