@@ -1,12 +1,12 @@
 class CustomersController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
- 
+#------基礎課題08-2-1)beforactionの宣言を追加----- 
+  before_action :set_customer, only: [:update, :show, :destroy]
+#----------------------------------------------------
+
   def index
-# @customers = Customer.page(params[:page])
-#----------------上記の1行を削除し、下記に変更----------------
     @q = Customer.search(params[:q])
     @customers = @q.result(distinct: true).page(params[:page])
-#---------------------------------------------------------
   end
 
   def new
@@ -23,11 +23,10 @@ class CustomersController < ApplicationController
   end
 
   def edit
-    @customer = Customer.find(params[:id])
+    
   end
 
   def update
-    @customer = Customer.find(params[:id])
     if @customer.update(customer_params)
       redirect_to @customer
     else
@@ -36,19 +35,20 @@ class CustomersController < ApplicationController
   end
 
   def show
-    @customer = Customer.find(params[:id])
     @comment = Comment.new # これをform_forで使う
-  #----------------------------下記を追加--------------------------
     @comments = Comment.where(customer_id: params[:id].to_i)
-#----------------------------------------------------------------
+
   end
 
   def destroy
-    @customer = Customer.find(params[:id])
     @customer.destroy
     redirect_to root_path
   end
-  
+#------基礎課題08-1-1)下記を追加し、update,show,destroyから同じものを削除--------------------------
+  def set_customer
+    @customer = Customer.find(params[:id])
+  end
+#----------------------------------------------------------------  
   private
   def customer_params
     params.require(:customer).permit(:family_name,:given_name,:email,:company_id,:post_id)
