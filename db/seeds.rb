@@ -21,5 +21,6 @@ Post.create(position_name: "平社員")
     email: email,
     company_id: rand(1..3),
     post_id: rand(1..4)
+    image_url: image_url
   )
 end
