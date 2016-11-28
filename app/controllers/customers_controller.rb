@@ -1,5 +1,5 @@
 class CustomersController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy, :index, :show]
 #------基礎課題08-2-1)beforactionの宣言を追加----- 
   before_action :set_customer, only: [:update, :show, :destroy]
 #----------------------------------------------------
