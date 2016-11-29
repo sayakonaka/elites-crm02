@@ -14,7 +14,7 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     @customer = Customer.find(@comment.customer_id) #findは見にいくのがidと決まっている
-    @comments = Comment.where(customer_id:@comment.customer_id) #whereはカラムの指定が必要
+    @comments = @customer.comments #アソシエーションを設定しているので、@customer.commentsをやるだけで、カスタマーに紐付いているコメントを全部持ってくることが可能で
     if @comment.save
       redirect_to customer_path(@comment.customer_id)
     else
@@ -44,6 +44,6 @@ class CommentsController < ApplicationController
   
   private
   def comment_params
-    params.require(:comment).permit(:body, :customer_id)
+    params.require(:comment).permit(:body, :customer_id, :user_id)
   end
 end
