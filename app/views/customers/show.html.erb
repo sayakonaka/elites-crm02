@@ -16,10 +16,12 @@
     <%= link_to '戻る', customers_path, class: "btn btn-default" %>
     <hr />
     
- <!--********************* 下記を追加 *********************-->
     <h2>対応履歴</h2>
     <% @comments.each do |comment| %>
-     <div class="media">
+    <div class = "media">
+      <div class="media-left">
+        <%= image_tag comment.user.image_url , width:50 %>
+      </div>
         <div class="media-body">
           <%= simple_format(comment.body) %>
           <p class="text-muted">
@@ -28,18 +30,29 @@
           </p>
         </div>
       </div>
+       
     <% end %>
-<!--******************************************************-->
 
+    <% if @comment.errors.any? %>
+      <div class="alert alert-danger">
+        <p><b><%= @comment.errors.count %>件のエラーがあります</b></p>
+        <ul>
+        <% @comment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
     
-    
-    
+
+        
     <%= form_for(@comment, url: { controller: :comments, action: :create }) do |f| %>
       <div class="form-group">
         <%= f.label :body , '対応内容' %><br>
         <%= f.text_area :body, class: "form-control" %>
       </div>
       <%= f.hidden_field :customer_id, value: @customer.id %>
+      <%= f.hidden_field :user_id, value: current_user.id %>
       <%= f.submit class: "btn btn-default" %>
     <% end %>
   </div>
